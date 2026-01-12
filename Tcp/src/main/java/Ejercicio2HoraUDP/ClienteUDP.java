@@ -17,15 +17,19 @@ public class ClienteUDP {
 
     public String enviarMensaje(String mensaje) throws IOException {
         buf = mensaje.getBytes() ;
-        DatagramPacket paquete = new DatagramPacket(buf , buf.length , direccionServidor , 4500);
+        DatagramPacket paquete = new DatagramPacket(buf , buf.length , direccionServidor , 5000);
         puerto.send(paquete);
 
-        paquete = new DatagramPacket(buf , buf.length) ;
-        puerto.receive(paquete);
+        byte[] respuestaServidor = new byte[1024];
+
+        DatagramPacket paqueteUsuario = new DatagramPacket(respuestaServidor , respuestaServidor.length) ;
+        puerto.receive(paqueteUsuario);
 
         String recibido = new String(
-                paquete.getData() , 0 , paquete.getLength()) ;
+                paqueteUsuario.getData() , 0 , paquete.getLength()) ;
+        System.out.println(recibido);
                 return recibido ;
+
 
 
     }
@@ -34,9 +38,8 @@ public class ClienteUDP {
     }
     public static void main(String[] args) throws IOException {
         ClienteUDP clienteUDP = new ClienteUDP() ;
-        clienteUDP.enviarMensaje("HORA");
-        String hora = clienteUDP.enviarMensaje("HORA");
-        System.out.println(hora);
+        clienteUDP.enviarMensaje("que pasa");
+
 
 
     }

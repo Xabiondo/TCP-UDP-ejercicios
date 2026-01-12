@@ -1,5 +1,6 @@
 package Ejercicio2HoraUDP;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,36 +11,43 @@ public class ServerUDP {
 
     private DatagramSocket puertoServer ;
     private boolean estaActivo ;
-    private byte[] buf = new byte[256] ;
+    private byte[] buf = new byte[1024] ;
 
     public ServerUDP() throws SocketException {
-        puertoServer  = new DatagramSocket(4500);
+        puertoServer  = new DatagramSocket(5000);
     }
 
     public void run() throws IOException {
         estaActivo = true ;
 
         while (estaActivo){
-            DatagramPacket paquete = new DatagramPacket(buf  , buf.length) ;
-            puertoServer.receive(paquete);
+            DatagramPacket paqueteRecibido = new DatagramPacket(buf  , buf.length) ;
+            puertoServer.receive(paqueteRecibido);
 
-            InetAddress direccion = paquete.getAddress() ;
+            InetAddress direccion = paqueteRecibido.getAddress() ;
 
-            int puerto =  paquete.getPort() ;
+            int puertoCliente =  paqueteRecibido.getPort() ;
             //Aqui deberia de poner la respuesta no  ?
 
 
-            String recibido = new String(paquete.getData() , 0  , paquete.getLength()) ;
+            String recibido = new String(paqueteRecibido.getData() , 0  , paqueteRecibido.getLength()) ;
+            System.out.println(recibido);
+
+            String respuesta = "";
 
             if (recibido.equals("HORA")){
+                respuesta = "23:25";
+
+            } else if(recibido.equals("APAGADO")){
+                respuesta = "apagando servidor" ;
                 estaActivo = false ;
-                String hora = "23:25";
-                buf = hora.getBytes();
-
+            } else {
+                respuesta = "comando desconocido" ;
             }
-            paquete =  new DatagramPacket(buf , buf.length , direccion , puerto) ;
+            byte[] tamanyoRespuesta = respuesta.getBytes();
+            DatagramPacket respuestaBinaria = new DatagramPacket(tamanyoRespuesta , tamanyoRespuesta.length , direccion , puertoCliente);
+            puertoServer.send(respuestaBinaria);
 
-            puertoServer.send(paquete) ;
         }
     }
     public static void main(String[] args) throws IOException {
