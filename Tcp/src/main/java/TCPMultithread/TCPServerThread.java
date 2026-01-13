@@ -36,7 +36,7 @@ public class TCPServerThread extends Thread {
 
                     break;
                 }
-                System.out.println("Cliente " + clientNumber + " pide: " + operacion);
+                System.out.println("serverTarea.Cliente " + clientNumber + " pide: " + operacion);
                 String resultado = procesarOperacion(operacion);
                 output.println("El calculo es " + resultado);
 

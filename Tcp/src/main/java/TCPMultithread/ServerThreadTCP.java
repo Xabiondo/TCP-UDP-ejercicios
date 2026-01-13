@@ -13,7 +13,7 @@ public class ServerThreadTCP {
         while (true) {
 
             Socket socket = puertoServidor.accept();
-            System.out.println("Cliente conectado.");
+            System.out.println("serverTarea.Cliente conectado.");
 
             TCPServerThread hiloCliente = new TCPServerThread(socket, this);
 

@@ -19,7 +19,6 @@ public class ServidorGateway {
                     DatagramPacket paquete = new DatagramPacket(buffer, buffer.length);
                     socketUDP.receive(paquete);
 
-                    // Actualizamos la variable compartida
                     String mensaje = new String(paquete.getData(), 0, paquete.getLength());
                     ultimoDatoSensor = mensaje;
 
@@ -29,7 +28,7 @@ public class ServidorGateway {
                 e.printStackTrace();
             }
         });
-        hiloSensor.start(); // ¡Arrancamos el hilo UDP!
+        hiloSensor.start();
 
 
         // ---------------------------------------------------------

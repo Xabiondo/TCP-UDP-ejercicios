@@ -1,6 +1,4 @@
 package TCPMultithread;
-
-
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -33,10 +31,6 @@ public class ClienteCalculadora {
         }
         sc.close();
         puertoServer.close();
-
-
-
-
     }
     public static void main(String[] args) throws IOException {
         new ClienteCalculadora();
